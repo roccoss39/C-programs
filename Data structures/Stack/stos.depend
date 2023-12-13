@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1701273878 source:c:\users\podzi\documents\stos\main.cpp
+	<iostream>
+	<windows.h>
+
