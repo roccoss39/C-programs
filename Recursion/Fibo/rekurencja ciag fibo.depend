@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1702492062 source:c:\users\podzi\documents\rekurencja ciag fibo\main.cpp
+	<iostream>
+	<iomanip>
+	<chrono>
+
