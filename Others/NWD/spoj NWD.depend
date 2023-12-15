@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1702558693 source:c:\users\podzi\documents\spoj nwd\main.cpp
+	<iostream>
+
+1702655603 source:c:\users\podzi\documents\spoj\spoj nwd\main.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+
