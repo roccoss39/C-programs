@@ -35,7 +35,7 @@ void babelkowe(int tab[], int rozm)
     int temp;
     for(int i=0; i<rozm; i++)
     {
-        for(int j=0; j<rozm; j++)
+        for(int j=0; j<rozm-i; j++)
         {
             if (tab[j]>tab[j+1])
             {
