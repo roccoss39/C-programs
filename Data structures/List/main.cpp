@@ -25,9 +25,7 @@ void Menu()
 {
     while (true)
     {
-
-
-        int choice;
+        int Choice;
         cout << " LIST MENU:" << endl
              << "---------------------------" << endl
              << "1.  push_front" << endl
@@ -44,9 +42,9 @@ void Menu()
              << "12. exit" << endl
              << "---------------------------" << endl
              << "Choose: ";
-        cin >> choice;
+        cin >> Choice;
 
-        switch (choice)
+        switch (Choice)
         {
         case 1:
             int Val1;
