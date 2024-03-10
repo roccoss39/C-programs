@@ -1,201 +1,156 @@
 #include <iostream>
-#include <windows.h>
 
 using namespace std;
 
-struct wezel
+struct Node
 {
-    int wartosc;
-    int znajdz(wezel *&korzen, int liczba,int ile);
-    wezel *lewy, *prawy;
-    void dodaj(wezel *&korzen, int wartosc);
-    wezel(int wart = 0) : wartosc(wart), lewy(nullptr), prawy(nullptr) {}
+    int Value;
+    static int RootsNum;
+    
+    Node *Left, *Right;
+    
+    int Find(Node *&Root, int Numb, int Counter);
+    void AddRoot(Node *&Root, int Value);
+    Node(int Val = 0) : Value(Val), Left(nullptr), Right(nullptr) {}
 };
 
+int Node::RootsNum = 0;
 
-void wezel::dodaj(wezel *&korzen, int wartosc)
+void Node::AddRoot(Node *&Root, int Value)
 {
-    if (korzen == nullptr)
+    RootsNum++;
+
+    if (Root == nullptr)
     {
-        korzen = new wezel(wartosc);
+        Root = new Node(Value);
     }
-    else if (wartosc < korzen->wartosc)
+    else if (Value < Root->Value)
     {
-        dodaj(korzen->lewy, wartosc);
+        AddRoot(Root->Left, Value);
     }
     else
     {
-        dodaj(korzen->prawy, wartosc);
+        AddRoot(Root->Right, Value);
     }
 }
 
-int wezel::znajdz(wezel *&korzen, int liczba,int ile)
+int Node::Find(Node *&Root, int Numb, int Counter)
 {
-    if (korzen == nullptr)
+    if (RootsNum == 0)
     {
-        cout << "Nie znaleziono " << endl;
+        cout << "No existing Roots yet ";
+        return 0;
+    }
+
+    if (Root == nullptr)
+    {
+        cout << "Not find" << endl;
         return -1;
     }
-    else if (liczba == korzen->wartosc)
-        return ile;
-    else if (korzen->lewy != nullptr && liczba == korzen->lewy->wartosc)
+    else if (Numb == Root->Value)
+        return Counter;
+    else if (Root->Left != nullptr && Numb == Root->Left->Value)
     {
-        cout<<"\nznaleziono, wezel nr:";
-        return 2 * ile;
+        cout << "\nHave found, Node nr:";
+        return 2 * Counter;
     }
-    else if (korzen->prawy != nullptr && liczba == korzen->prawy->wartosc)
+    else if (Root->Right != nullptr && Numb == Root->Right->Value)
     {
-        cout<<"\nznaleziono, wezel nr:";
-        return 2 * ile + 1;
+        cout << "\nHave found, Node nr:";
+        return 2 * Counter + 1;
     }
-    else if (liczba < korzen->wartosc)
+    else if (Numb < Root->Value)
     {
-        return znajdz(korzen->lewy, liczba,ile*=2);
+        return Find(Root->Left, Numb, Counter *= 2);
     }
-    else if (liczba > korzen->wartosc)
+    else if (Numb > Root->Value)
     {
 
-        return znajdz(korzen->prawy, liczba,ile*=2);
+        return Find(Root->Right, Numb, Counter *= 2);
     }
+    return 0;
 }
 
-void rysuj(wezel *korzen, int wysokosc, int szerokosc);
-void wykonaj(wezel *&korzen, wezel obiekt);
-void resetkursor();
-void wyswietl(wezel *korzen);
-void menu();
+void Commit(Node *&Root, Node Obiect);
+void Display(Node *Root);
+void Menu();
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int main()
 {
-    wezel *korzen = nullptr;
-    wezel drzewo;
+    Node *Root = nullptr;
+    Node Three;
 
-    menu();
-    wykonaj(korzen, drzewo);
+    Menu();
+    Commit(Root, Three);
 
-delete korzen;
+    delete Root;
     return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void wyswietl(wezel *korzen)
+void Display(Node *Root)
 {
 
-    static int ile_razy=0;
-    ile_razy++;
+    if (Root == nullptr)
+        cout << "Empty tree" << endl;
 
-    if (korzen == nullptr)
-        cout<<"drzewo puste"<<endl;
-
-    else if (korzen->prawy==nullptr && korzen -> lewy==nullptr&&ile_razy==1)
-        cout<<"Wartosc korzenia to:"<<korzen->wartosc<<endl;
+    else if (Root->Right == nullptr && Root->Left == nullptr && Node::RootsNum == 1)
+        cout << "Root value is:" << Root->Value << endl;
 
     else
     {
-        if (korzen->prawy!=nullptr || korzen -> lewy!=nullptr)
-            cout<<"Ojciec ma wartosc:"<<korzen->wartosc<<endl;
+        if (Root->Right != nullptr || Root->Left != nullptr)
+            cout << "Father's value:" << Root->Value << endl;
 
-        if(korzen -> lewy!=nullptr)
-            cout<<"Lewy potomek ma wartosc:"<<korzen->lewy->wartosc<<endl;
+        if (Root->Left != nullptr)
+            cout << "Left child has value:" << Root->Left->Value << endl;
 
-        if(korzen -> prawy!=nullptr)
-            cout<<"Prawy potomek ma wartosc:"<<korzen->prawy->wartosc<<endl;
-
+        if (Root->Right != nullptr)
+            cout << "Right child has value:" << Root->Right->Value << endl;
     }
-    if (korzen->lewy != nullptr)
-        wyswietl(korzen->lewy);
-    if (korzen->prawy != nullptr)
-        wyswietl(korzen->prawy);
-
-}
-void rysuj(wezel *korzen, int wysokosc, int szerokosc)
-{
-    COORD coord;
-    coord.X = szerokosc;
-    coord.Y = wysokosc;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    if (korzen != nullptr)
-    {
-        cout<<korzen->wartosc<<endl;
-    }
-
-    if (korzen->lewy!=nullptr)
-        rysuj(korzen->lewy,wysokosc+1,szerokosc-13+wysokosc*2);
-    if (korzen->prawy!=nullptr)
-        rysuj(korzen->prawy,wysokosc+1,szerokosc+13-wysokosc*2);
-
-}
-void resetkursor()
-{
-    COORD coord;
-    coord.X = 0;
-    coord.Y = 7;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    for (int i =0; i<22; i++)
-    {
-        cout << string(30, ' ') <<endl;
-    }
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    if (Root->Left != nullptr)
+        Display(Root->Left);
+    if (Root->Right != nullptr)
+        Display(Root->Right);
 }
 
-void menu()
+void Menu()
 {
-    system("CLS");
-    cout << string(27, '*') << endl;
-    cout << "1. Dodaj liczbe \n"
-         << "2. Znajdz liczbe \n"
-         << "3. Wyswietl relacje drzewa \n"
-         << "4. Wyczysc ekran \n"
-         << "5. Koniec \n";
-    cout << string(27, '*') << endl;
+    cout << "1. Add Root \n"
+         << "2. Find node \n"
+         << "3. Display tree relations \n"
+         << "4. End \n";
 }
 
-void wykonaj(wezel *&korzen, wezel obiekt)
+void Commit(Node *&Root, Node Obiect)
 {
-    int liczba, a;
+    int Numb, a;
 
     do
     {
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
         cin >> a;
-        resetkursor();
         switch (a)
         {
         case 1:
-            cout << "Podaj wartosc:";
-            cin >> liczba;
-            obiekt.dodaj(korzen, liczba);
-            rysuj(korzen, 0, 70);
-            resetkursor();
+            cout << "Enter the value:";
+            cin >> Numb;
+            Obiect.AddRoot(Root, Numb);
             break;
         case 2:
-            cout << "Podaj wartosc:";
-            cin >> liczba;
-            cout <<obiekt.znajdz(korzen, liczba,1) << "\n";
-            Sleep(1000);
-            resetkursor();
+            cout << "Searching node:";
+            cin >> Numb;
+            cout << Obiect.Find(Root, Numb, 1) << "\n";
             break;
         case 3:
-            wyswietl(korzen);
+            Display(Root);
             break;
         case 4:
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-            menu();
-            rysuj(korzen, 0, 70);
-            resetkursor();
-            break;
-        case 5:
             break;
         default:
             cin.clear();
             cin.ignore();
-            cout<<("wybierz wlasciwie");
-            Sleep(1000);
-            resetkursor();
-
+            cout << ("Choose properly!");
             break;
         };
 
-    }
-    while (a != 5);
+    } while (a != 4);
 }
-

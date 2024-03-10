@@ -15,17 +15,17 @@ int main()
 //////////////////////////////////////////////////////////////////////////////////////////////
 void Display_list()
 {
-    for (auto it = MyList.begin(); it != MyList.end(); it++)
-        cout << *it << " ";
+    system("CLS");
+    for (auto i = MyList.begin(); i != MyList.end(); i++)
+        cout << *i << " ";
     cout << endl;
-    Sleep(3000);
 }
 
 void Menu()
 {
     while (true)
     {
-
+        Display_list();
 
         int choice;
         cout << " LIST MENU:" << endl
@@ -40,8 +40,7 @@ void Menu()
              << "8.  remove" << endl
              << "9.  sort" << endl
              << "10. reverse" << endl
-             << "11. display numbers" << endl
-             << "12. exit" << endl
+             << "11. exit" << endl
              << "---------------------------" << endl
              << "Choose: ";
         cin >> choice;
@@ -88,11 +87,9 @@ void Menu()
             MyList.reverse();
             break;
         case 11:
-            Display_list();
-            break;
-        case 12:
             exit(1);
             break;
+
         default:
             cout << "Fault";
             Sleep(1000);
@@ -100,3 +97,4 @@ void Menu()
         }
     }
 }
+

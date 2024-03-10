@@ -1,9 +1,0 @@
-# depslib dependency file v1.0
-1700415180 source:c:\users\podzi\documents\drzewo binarne.cpp
-	<iostream>
-	<windows.h>
-
-1701525007 source:c:\users\podzi\documents\github\programs\data structures\binary tree\main.cpp
-	<iostream>
-	<windows.h>
-
