@@ -2,128 +2,132 @@
 
 using namespace std;
 
-bool obrot_prawo(double ile);
-bool obrot_lewo(double ile);
-bool podnies_prawe_ramie(double ile);
-bool podnies_lewe_ramie(double ile);
-bool idz_przod(double ile);
-bool idz_tyl(double ile);
-void menu();
-void akcja();
-
-int main()
+class Robot
 {
-    menu();
-    akcja();
-}
-
-bool obrot_prawo(double ile)
+public:
+    bool Turn_right(double Value);
+    bool Turn_left(double Value);
+    bool Hoist_right_arm(double Value);
+    bool Hoist_left_arm(double Value);
+    bool Go_forward(double Value);
+    bool Go_back(double Value);
+    void Commit();
+};
+bool Turn_right(double Value)
 {
-    cout << "obracam sie w prawo o " <<ile<<" deg"<< endl;
+    cout << "Turning right " << Value << " deg" << endl;
     return true;
 }
 
-bool obrot_lewo(double ile)
+bool Turn_left(double Value)
 {
-    cout << "obracam sie w lewo o " <<ile<<" deg"<< endl;
+    cout << "Turning left " << Value << " deg" << endl;
     return true;
 }
 
-bool podnies_prawe_ramie(double ile)
+bool Hoist_right_arm(double Value)
 {
-    cout << "podnosze prawe ramie o " <<ile<<" deg"<< endl;
+    cout << "Hoisting right arm " << Value << " deg" << endl;
     return true;
 }
 
-bool podnies_lewe_ramie(double ile)
+bool Hoist_left_arm(double Value)
 {
-    cout << "podnosze lewe ramie o " <<ile<<" deg"<< endl;
+    cout << "Hoisting left arm " << Value << " deg" << endl;
     return true;
 }
 
-bool idz_przod(double ile)
+bool Go_forward(double Value)
 {
-    cout << "ide w przod o " <<ile<<"m"<< endl;
+    cout << "Going forward " << Value << "m" << endl;
     return true;
 }
 
-bool idz_tyl(double ile)
+bool Go_back(double Value)
 {
-    cout << "ide w tyl o " <<ile<<"m"<< endl;
+    cout << "Going back " << Value << "m" << endl;
     return true;
 }
-
-void menu()
+void Commit()
 {
-    cout << "############## OKNO DIALOGOWE ################\n"
-         << "0: obrot w prawo\n"
-         << "1: obrot w lewo\n"
-         << "2: podnies (opusc) prawe ramie\n"
-         << "3: podnies (opusc) leweramie\n"
-         << "4: idz w przod\n"
-         << "5: idz w tyl\n"
-         << "7: wykonaj\n"
-         << "9: koniec\n";
-}
-
-void akcja()
-{
-    int a, n;
-    double t[20];
-    bool (*wsk[20])(double);
-    bool (*tabw[6])(double) = {&obrot_prawo, &obrot_lewo, &podnies_prawe_ramie, &podnies_lewe_ramie, &idz_przod, &idz_tyl};
+    int Choose, CountStep;
+    double Array[20];
+    bool (*ArrayPointer[20])(double);
+    bool (*FunctionPointer[6])(double) = {&Turn_right, &Turn_left, &Hoist_right_arm, &Hoist_left_arm, &Go_forward, &Go_back};
     do
     {
-        n = 0;
+        CountStep = 0;
         for (int i = 0; i < 20; i++)
         {
-            cout << "Wprowadz polecenie: ";
-            do{
-            	if (!(cin >> a)) 
-				{
-              	    cout << "Niepoprawne dane! Sprobuj ponownie." << endl;
-                	cin.clear(); 
-                	cin.ignore(); 
-            	}
-           	}while(cin.fail());
+            cout << "Insert task: ";
+            do
+            {
+                if (!(cin >> Choose))
+                {
+                    cout << "Invalid data! Try again." << endl;
+                    cin.clear();
+                    cin.ignore();
+                }
+            } while (cin.fail());
 
-            if (a == 7)
+            if (Choose == 7)
                 break;
 
-            switch (a)
+            switch (Choose)
             {
             case 0:
             case 1:
             case 2:
             case 3:
-            	n++;
-                cout<<"o ile stopni? ";
-                cin>>t[i];
-                wsk[i] = (tabw[a]);
+                CountStep++;
+                cout << "How many degree? ";
+                cin >> Array[i];
+                ArrayPointer[i] = (FunctionPointer[Choose]);
                 break;
             case 4:
             case 5:
-                n++;
-                cout<<"o ile metrow? ";
-                cin>>t[i];
-                wsk[i] = (tabw[a]);
+                CountStep++;
+                cout << "How many meters? ";
+                cin >> Array[i];
+                ArrayPointer[i] = (FunctionPointer[Choose]);
                 break;
             case 9:
                 exit(1);
             default:
-                cout << "zle podales znak" << endl;
+                cout << "Wrong data." << endl;
                 i--;
                 break;
             }
         }
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < CountStep; i++)
         {
-            (wsk[i])(t[i] );
+            (ArrayPointer[i])(Array[i]);
         }
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < CountStep; i++)
         {
-            (wsk[i]) = 0;
+            (ArrayPointer[i]) = 0;
         }
-    } while (a != 9);
+    } while (Choose != 9);
+}
+
+void menu();
+
+int main()
+{
+    menu();
+    Commit();
+}
+
+void menu()
+{
+    cout << "############## DIALOGUE WINDOW ################\n"
+         << "0: Turn right\n"
+         << "1: Turn left\n"
+         << "2: Hoist (move down) right arm\n"
+         << "3: Hoist (move down) left arm\n"
+         << "4: Go forward\n"
+         << "5: Go back\n"
+         << "7: Commit!\n"
+         << "9: End\n";
 }
 

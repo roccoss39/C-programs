@@ -1,82 +1,83 @@
+// Chessboard and pieces without class.
 #include <iostream>
 using namespace std;
 
 typedef long LongType;
 
-char* tworzenie_szachownicy();
-void tworzenie_figur(char* szachownica);
+char *Creating_Chessboard();
+void Creating_Pieces(char *Chessboard);
 
 int main()
 {
-    char* szachownica = tworzenie_szachownicy();
-    tworzenie_figur(szachownica);
+    char *Chessboard = Creating_Chessboard();
+    Creating_Pieces(Chessboard);
 
-    delete[] szachownica;
-    cout << "\nUsunieto szachownice.";
+    delete[] Chessboard;
+    cout << "\nRemoved chessboard.";
     return 0;
 }
 
-char* tworzenie_szachownicy()
+char *Creating_Chessboard()
 {
-    char* szachownica = new char[256];
+    char *Chessboard = new char[256];
     for (int j = 0; j < 256; j++)
     {
-        szachownica[j] = '0';
+        Chessboard[j] = '0';
     }
-    return szachownica;
+    return Chessboard;
 }
 
-void tworzenie_figur(char* szachownica)
+void Creating_Pieces(char *Chessboard)
 {
-    char a;
-    LongType* figury[32];
-    static int ile = 0;
-    long b, pozycja;
+    char Letter;
+    LongType *Pieces[32];
+    static int CountPieces = 0;
+    long PositionNumber, Position;
 
     for (int j = 0; j < 32; j++)
     {
-        figury[j] = nullptr;
+        Pieces[j] = nullptr;
     }
 
-    while (1)
+    while (true)
     {
-        cout << "Podaj miejsce stworzenia figury np. F4 lub nacisnij 'x' aby pokazac miejsce figury (adres): ";
-        cin >> a;
+        cout << "Enter the position to create a figure, for example F4, or press 'x' to display the positions of the figures (addresses): ";
+        cin >> Letter;
 
-        if (a == 'x')
+        if (Letter == 'x')
         {
             break;
         }
 
-        cin >> b;
+        cin >> PositionNumber;
 
-        if (a < 'A' || a > 'H' || b < 1 || b > 8)
+        if (Letter < 'A' || Letter > 'H' || PositionNumber < 1 || PositionNumber > 8)
         {
-            cout << "Bledne wspolrzedne!" << endl;
+            cout << "Wrong position!" << endl;
             break;
         }
 
-        pozycja = ((a - 'A') * 8 + b - 1) * 4;
+        Position = ((Letter - 'A') * 8 + PositionNumber - 1) * 4;
 
-        cout << "Miejsce w pamieci to: " << pozycja << endl;
+        cout << "Memory location: " << Position << endl;
 
-        figury[ile] = new (&szachownica[pozycja]) LongType; // zbudowanie obiektu long na pozycji char, new placement
-        *(figury[ile]) = pozycja; // figura posiada dane o swojej pozycji
-        ile++;
+        Pieces[CountPieces] = new (&Chessboard[Position]) LongType; // zbudowanie obiektu long na pozycji char, new placement
+        *(Pieces[CountPieces]) = Position;                          // figura posiada dane o swojej pozycji
+        CountPieces++;
     }
 
-    cout << "Liczba stworzonych figur: " << ile << ". Miejsca to:";
+    cout << "Number of created pieces: " << CountPieces << ". Positions:";
 
-    for (int j = 0; j < ile; j++)
+    for (int j = 0; j < CountPieces; j++)
     {
-        cout << *(figury[j]) << " ";
+        cout << *(Pieces[j]) << " ";
     }
 
-    // Usuñ figury
-    for (int j = 0; j < ile; j++)
+    // usuwanie figur
+    for (int j = 0; j < CountPieces; j++)
     {
-        figury[j]->~LongType(); // Reczne wywo³anie destruktora dla figury (zwolnienie miejsca na szachownicy) gdyz nie rezerwowano pamieci, a zbudowano obiekt na szachownicy
+        Pieces[j]->~LongType(); // Reczne wywolanie destruktora dla figur (zwolnienie miejsca na szachownicy) gdyz nie rezerwowano pamieci, a zbudowano obiekt na szachownicy
     }
 
-    cout << "\nUsunieto figury.";
+    cout << "\nRemoved pieces.";
 }
