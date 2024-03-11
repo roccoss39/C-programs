@@ -8,7 +8,7 @@ class MyQueue
     void pop(int Queue[], int &Index);
     void size(int Index);
     const char *empty(int Index);
-    void Display_Queue(int Queue[], int Index);
+    void display_queue(int Queue[], int Index);
 };
 void push(int Queue[], int &Index)
 {
@@ -53,7 +53,7 @@ const char* empty(int Index)
     return (Index) ? "False" : "True";
 }
 
-void Display_Queue (int Queue[], int Index)
+void display_queue (int Queue[], int Index)
 {
     cout<<string(30,'*')<<endl;
     for (int i=0; i<Index; i++)
@@ -106,6 +106,6 @@ void Display_Menu(int Queue[], int Index)
             Sleep(1000);
             break;
         }
-        Display_Queue(Queue, Index);
+        display_queue(Queue, Index);
     } while (Choice != 5);
 }

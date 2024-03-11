@@ -2,37 +2,37 @@
 #include <string>
 using namespace std;
 
-string zamiana(int a);
+string Change(int Number);
 
 int main()
 {
-    cout << zamiana(5123) << endl;
-    cout << zamiana(6999) << endl;
-    cout << zamiana(1531) << endl;
-    cout << zamiana(-9234) << endl;
-    cout << zamiana(32) << endl;
-    cout << zamiana(12) << endl;
-    cout << zamiana(-1) << endl;
-    cout << zamiana(523) << endl;
-    cout << zamiana(1006) << endl;
-    cout << zamiana(1040) << endl;
-    cout << zamiana(-17) << endl;
-    cout << zamiana(-15) << endl;
-    cout << zamiana(0) << endl;
+    cout << Change(5123) << endl;
+    cout << Change(6999) << endl;
+    cout << Change(1531) << endl;
+    cout << Change(-9234) << endl;
+    cout << Change(32) << endl;
+    cout << Change(12) << endl;
+    cout << Change(-1) << endl;
+    cout << Change(523) << endl;
+    cout << Change(1006) << endl;
+    cout << Change(1040) << endl;
+    cout << Change(-17) << endl;
+    cout << Change(-15) << endl;
+    cout << Change(0) << endl;
 
     return 0;
 }
 
-string zamiana(int a)
+string Change(int Number)
 {
     string l;
 
-    if (a < 0)
+    if (Number < 0)
     {
         l = "minus ";
-        a *= -1;
+        Number *= -1;
     }
-    if (a == 0)
+    if (Number == 0)
         return l = "zero";
 
     string tys[] = {"tysiac", "tysiace", "tysiecy"};
@@ -41,13 +41,13 @@ string zamiana(int a)
     string kilkanascie[] = {"jedenascie", "dwanascie", "trzynascie", "czternascie", "pietnascie", "szesnascie", "siedemnascie", "osiemnascie", "dziewietnascie"};
     string jed[] = {"jeden", "dwa", "trzy", "cztery", "piec", "szesc", "siedem", "osiem", "dziewiec"};
 
-    int tysi = a / 1000;
-    a %= 1000;
-    int setk = a / 100;
-    a %= 100;
-    int dzie = a / 10;
-    a %= 10;
-    int jedn = a;
+    int tysi = Number / 1000;
+    Number %= 1000;
+    int setk = Number / 100;
+    Number %= 100;
+    int dzie = Number / 10;
+    Number %= 10;
+    int jedn = Number;
 
     if (tysi > 0)
     {
@@ -62,6 +62,7 @@ string zamiana(int a)
             l += jed[tysi - 1] + " " + tys[2] + " ";
         }
     }
+    
     if (setk > 0)
     {
         if (setk == 1)
@@ -75,6 +76,7 @@ string zamiana(int a)
             l += jed[setk - 1] + " " + set[3] + " ";
         }
     }
+
     if (dzie > 1)
     {
         l += dzi[dzie - 1] + " ";
@@ -91,4 +93,3 @@ string zamiana(int a)
     }
     return l;
 }
-

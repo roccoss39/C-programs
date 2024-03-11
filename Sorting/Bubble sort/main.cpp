@@ -1,47 +1,48 @@
 #include <iostream>
 #include <time.h>
 using namespace std;
-void babelkowe(int tab[], int rozm);
+void Bubble_sort(int MyArray[], int ArraySize);
 int main()
 {
     srand(time(NULL));
-    int ile=100;
-    int tablica[ile];
+    const int NumbersToSort = 100;
+    int Arr[NumbersToSort];
 
-    //Wczytywanie losowych liczb do tablicy
-    for(int i=0; i<ile; i++)
+    // Wczytywanie losowych liczb do tablicy
+    for (int i = 0; i < NumbersToSort; i++)
     {
-        tablica[i] = rand()%ile+1;
+        Arr[i] = rand() % NumbersToSort + 1;
     }
-    for (int i =0; i<ile; i++)
+    for (int i = 0; i < NumbersToSort; i++)
     {
-        cout<<tablica[i]<<" ";
+        cout << Arr[i] << " ";
     }
 
-    cout<<endl<<endl<<"Po sortowaniu"<<endl;
+    cout << endl
+         << endl
+         << "After sorting" << endl;
 
-    babelkowe(tablica, ile);
+    Bubble_sort(Arr, NumbersToSort);
 
-    //Po sortowaniu
-    for (int i =0; i<ile; i++)
+    for (int i = 0; i < NumbersToSort; i++)
     {
-        cout<<tablica[i]<<" ";
+        cout << Arr[i] << " ";
     }
 
     return 0;
 }
-void babelkowe(int tab[], int rozm)
+void Bubble_sort(int MyArray[], int ArraySize)
 {
     int temp;
-    for(int i=0; i<rozm; i++)
+    for (int i = 0; i < ArraySize; i++)
     {
-        for(int j=0; j<rozm-i; j++)
+        for (int j = 0; j < ArraySize - i; j++)
         {
-            if (tab[j]>tab[j+1])
+            if (MyArray[j] > MyArray[j + 1])
             {
-                temp=tab[j+1];
-                tab[j+1]=tab[j];
-                tab[j]=temp;
+                temp = MyArray[j + 1];
+                MyArray[j + 1] = MyArray[j];
+                MyArray[j] = temp;
             }
         }
     }

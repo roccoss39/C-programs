@@ -21,15 +21,15 @@ union MyUnion
 
 int main()
 {
-    cout << "Podaj date urodzenia DDMMRRRR: ";
+    cout << "Enter your date of birth DDMMYYYY: ";
     long date;
     cin >> date;
     MyUnion UnionDate;
     UnionDate.TotalWord = date;
 
-    cout << "blue czyli bity 0-5: " << UnionDate.Birthday.blue << endl;
-    cout << "green czyli bity 10-14: " << UnionDate.Birthday.green << endl;
-    cout << "red czyli bity 16-18: " << UnionDate.Birthday.red << endl;
+    cout << "blue means bits 0-5: " << UnionDate.Birthday.blue << endl;
+    cout << "green means bits 10-14: " << UnionDate.Birthday.green << endl;
+    cout << "red means bits 16-18: " << UnionDate.Birthday.red << endl;
 
     ToBit(date);
 }

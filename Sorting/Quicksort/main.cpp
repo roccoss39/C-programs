@@ -1,66 +1,66 @@
 #include <iostream>
 #include <time.h>
 using namespace std;
-void quicksort(int *tab,int od, int ile);
+void quicksort(int *MyArray, int From, int To);
 
 int main()
 {
     srand(time(NULL));
-    int r=200;
-    int tablica[r];
+    int NumbersToSort = 200;
+    int Arr[NumbersToSort];
 
-    //Wczytywanie losowych liczb do tablicy
-    for(int i=0; i<r; i++)
+    // Wczytywanie losowych liczb do tablicy
+    for (int i = 0; i < NumbersToSort; i++)
     {
-        tablica[i] = rand()%r+1;
+        Arr[i] = rand() % NumbersToSort + 1;
     }
 
-    //Przed sortowaniem
-    for (int i =0; i<r; i++)
+    // Przed sortowaniem
+    for (int i = 0; i < NumbersToSort; i++)
     {
-        cout<<tablica[i]<<" ";
+        cout << Arr[i] << " ";
     }
 
-    cout<<endl<<endl<<"Po sortowaniu"<<endl;
+    cout << endl
+         << endl
+         << "After sorting:" << endl;
 
-    quicksort(tablica,0, r);
+    quicksort(Arr, 0, NumbersToSort);
 
-    //Po sortowaniu
-    for (int i =0; i<r; i++)
+    // Po sortowaniu
+    for (int i = 0; i < NumbersToSort; i++)
     {
-        cout<<tablica[i]<<" ";
+        cout << Arr[i] << " ";
     }
 }
 
-void quicksort(int *tab,int od, int ile)
+void quicksort(int *MyArray, int From, int To)
 {
-    int  indexgorny=ile-1;
-    int  indexdolny=od;
-    int  bufor;
-    const int os=tab[od]; //os czyli oœ podzia³u (po³owiczny)
+    int UpperIndex = To - 1;
+    int LowerIndex = From;
+    int Bufor;
+    const int Axe = MyArray[From]; // Axe czyli os podzialu (polowiczny)
     do
     {
-        while((tab[indexgorny]>=(os))&&(!(indexdolny==indexgorny)))
+        while ((MyArray[UpperIndex] >= (Axe)) && (!(LowerIndex == UpperIndex)))
         {
-            indexgorny--;
+            UpperIndex--;
         }
-        bufor=tab[indexgorny];
-        tab[indexgorny]=tab[indexdolny];
-        tab[indexdolny]=bufor;
+        Bufor = MyArray[UpperIndex];
+        MyArray[UpperIndex] = MyArray[LowerIndex];
+        MyArray[LowerIndex] = Bufor;
 
-        while((tab[indexdolny]<=(os))&&(!(indexdolny==indexgorny)))
+        while ((MyArray[LowerIndex] <= (Axe)) && (!(LowerIndex == UpperIndex)))
         {
-            indexdolny++;
+            LowerIndex++;
         }
-        bufor=tab[indexgorny];
-        tab[indexgorny]=tab[indexdolny];
-        tab[indexdolny]=bufor;
-    }
-    while (!(indexdolny==indexgorny));
+        Bufor = MyArray[UpperIndex];
+        MyArray[UpperIndex] = MyArray[LowerIndex];
+        MyArray[LowerIndex] = Bufor;
+    } while (!(LowerIndex == UpperIndex));
 
-    if(indexdolny-od>=2)
-        quicksort(tab,od,indexdolny);
-    if(ile-indexgorny>=3)
-        quicksort(tab,indexgorny+1,ile);
+    if (LowerIndex - From >= 2)
+        quicksort(MyArray, From, LowerIndex);
+    if (To - UpperIndex >= 3)
+        quicksort(MyArray, UpperIndex + 1, To);
 }
-

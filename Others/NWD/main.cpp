@@ -1,35 +1,37 @@
+// szukanie GCD
 #include <iostream>
 
 using namespace std;
-int nwd(int a, int b);
+int GCD(int times, int numb1);
 int main()
 {
-    cout<<"Podaj ile razy ma sie wykonac program, a nastepnie 2 liczby do wyznaczenia NWD"<<endl;
+    cout << "Provide how many times the program should give GCD, then insert 2 numbers to calculate their GCD" << endl;
 
-    int a,b,c;
-    cin>>a;
+    int times, numb1, numb2;
+    cin >> times;
 
-    for (int i=0; i<a; i++)
+    for (int i = 0; i < times; i++)
     {
-        cin>>b>>c;
-        cout<<(nwd(b, c))<<endl;
+        cin >> numb1 >> numb2;
+        cout << (GCD(numb1, numb2)) << endl;
     }
     return 0;
 }
-int nwd(int a, int b)
+int GCD(int times, int numb1)
 {
-    int temp,pol=a/2;
+    int temp, pol = times / 2;
 
-    if (a%b==0)
-        return b;
-    if(b%a==0)
-        return a;
+    if (times % numb1 == 0)
+        return numb1;
+    if (numb1 % times == 0)
+        return times;
 
-    for(int i=pol; i>0; i--)
+    for (int i = pol; i > 0; i--)
     {
-        if ((a%i==0) &&(b%i)==0)
+        if ((times % i == 0) && (numb1 % i) == 0)
         {
             return i;
         }
     }
+    return 0;
 }

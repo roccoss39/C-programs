@@ -1,6 +1,0 @@
-# depslib dependency file v1.0
-1701342921 source:c:\users\podzi\documents\lista\main.cpp
-	<iostream>
-	<list>
-	<windows.h>
-

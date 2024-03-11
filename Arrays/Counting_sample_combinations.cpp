@@ -1,5 +1,5 @@
-// zadanie bez klasy string, pojemników, wektorow, biblioteki <cstring>, klas itp,
-// surowe operacje na tablicach (bardziej język C)
+// zadanie bez klasy string, pojemników, wektorow, biblioteki <cstring>, klas itp.
+// surowe operacje na tablicach (bardziej język c++)
 
 #include <iostream>
 #include <cstdlib>
@@ -112,8 +112,8 @@ void Display(int tab[])
 			}
 			if ((j == i - 1) || (i == 0))
 			{
-				static int c, sum;
-				c = tab[i];
+				static int numb, sum;
+				numb = tab[i];
 				sum = 0;
 				Clear(array);
 
@@ -131,7 +131,7 @@ void Display(int tab[])
 
 				for (int i = 0; i < MAX_COMBINATIONS; i++)
 				{
-					if (c == tab[i])
+					if (numb == tab[i])
 						sum++;
 				}
 				cout << " " << sum << " TIMES" << endl;
