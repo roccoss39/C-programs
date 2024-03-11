@@ -2,22 +2,23 @@
 #include <iomanip>
 
 using namespace std;
-long long silnia(long long a);
+
+long long Factorial(long long number);
 int main()
 {
-    int a;
-    cout<<"Podaj liczbe:";
-    cin >>a;
-    cout<<silnia(a);
+    int number;
+    cout<<"Insert number:";
+    cin >>number;
+    cout<<Factorial(number);
 
     return 0;
 }
-long long silnia(long long a)
+long long Factorial(long long number)
 {
-    if(a<1)
+    if(number<1)
     {
         return 1;
     }
-    else if (a>1)
-        return a*silnia(a-1);
+    else if (number>1)
+        return number*Factorial(number-1);
 }

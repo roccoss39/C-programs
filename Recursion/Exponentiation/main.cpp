@@ -1,35 +1,38 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
+
 using namespace std;
 using namespace chrono;
-long double potega(long double a, long double b);
+
+long double exponentiation(long double number, long double power);
+
 int main()
 {
-    int a,b;
-    cout<<"Podaj kolejno liczbe i wykladnik potegi:";
-    cin>>a>>b;
+    int number, power;
+    cout << "Provide the number and the exponent of the power sequentially:";
+    cin >> number >> power;
 
-    cout<<setprecision(100000);
+    cout << setprecision(100000);
 
     auto start = system_clock::now();
-    cout<< potega(a, b);
+    cout << exponentiation(number, power);
     auto stop = system_clock::now();
 
     auto duration = duration_cast<microseconds>(stop - start);
-    double czas = duration.count() / 1e6; // zamiana na sekundy
+    double time = duration.count() / 1e6; // zamiana na sekundy
 
-    cout <<endl<< "Czas obliczen: " << fixed << setprecision(10) << czas << "s" << endl;
+    cout << endl
+         << "Time of calculation: " << fixed << setprecision(10) << time << "s" << endl;
 
     return 0;
 }
-long double potega(long double a, long double b)
+long double exponentiation(long double number, long double power)
 {
-    if (b==0)
+    if (power == 0)
         return 1;
     else
     {
-
-        return a*potega(a,b-1);
+        return number * exponentiation(number, power - 1);
     }
 }

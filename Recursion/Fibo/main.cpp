@@ -1,44 +1,42 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
+
 using namespace std;
 using namespace chrono;
 
-
-double czas;
-int fibo(int a);
+double Time;
+int fibo(int number);
 int main()
 {
+    int sequence;
+    cout << "How many of the first Fibonacci sequence numbers to print? " << endl;
+    cin >> sequence;
 
-    int n;
-    cout<<"Ile wypisac pierwszych liczb ciagu fibo? "<<endl;
-    cin>>n;
-
-    auto start = system_clock::now();;
-    for (int i=1; i<=n; i++)
+    auto start = system_clock::now();
+    ;
+    for (int i = 1; i <= sequence; i++)
     {
-        cout<<fibo(i)<<" ";
+        cout << fibo(i) << " ";
     }
-    cout<<endl;
+    cout << endl;
     auto stop = system_clock::now();
 
     auto duration = duration_cast<microseconds>(stop - start);
-    double czas = duration.count() / 1e6; // zamiana na sekundy
+    double Time = duration.count() / 1e6; // zamiana na sekundy
 
-    cout << "Czas obliczenia danych liczb fibo: " << fixed << setprecision(10) << czas << "s" << endl;
-
+    cout << "Time for fibo calculating: " << fixed << setprecision(10) << Time << "s" << endl;
 
     return 0;
 }
-int fibo(int a)
+int fibo(int number)
 {
-
-    if((a==1)||(a==2))
+    if ((number == 1) || (number == 2))
     {
         return 1;
     }
     else
     {
-        return fibo(a-2)+fibo(a-1);
+        return fibo(number - 2) + fibo(number - 1);
     }
 }
