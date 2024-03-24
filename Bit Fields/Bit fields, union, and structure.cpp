@@ -4,7 +4,7 @@ void ToBit(long a);
 
 using namespace std;
 
-struct Date
+struct StructDate
 {
     unsigned int blue : 6;
     unsigned int : 4;
@@ -16,22 +16,22 @@ struct Date
 union MyUnion
 {
     long TotalWord;
-    Date Birthday;
+    StructDate Birthday;
 };
 
 int main()
 {
-    cout << "Enter your date of birth DDMMYYYY: ";
-    long date;
-    cin >> date;
+    cout << "Enter your StructDate of birth DDMMYYYY: ";
+    long lVal;
+    cin >> lVal;
     MyUnion UnionDate;
-    UnionDate.TotalWord = date;
+    UnionDate.TotalWord = lVal;
 
     cout << "blue means bits 0-5: " << UnionDate.Birthday.blue << endl;
     cout << "green means bits 10-14: " << UnionDate.Birthday.green << endl;
     cout << "red means bits 16-18: " << UnionDate.Birthday.red << endl;
 
-    ToBit(date);
+    ToBit(lVal);
 }
 
 void ToBit(long a)
