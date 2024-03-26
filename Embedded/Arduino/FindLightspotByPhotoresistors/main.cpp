@@ -8,7 +8,7 @@
 #define LEFT_PHOTORESISTOR A5
 #define RIGHT_PHOTORESISTOR A0
 
-int photoresistorDefference = 0;
+int photoresistorDifference = 0;
 const byte nrLed = 5;
 
 
@@ -29,17 +29,17 @@ void loop()
   // Serial.println("Right Photoresistor:" + String(analogRead(RIGHT_PHOTORESISTOR)));
   //delay(1000);
 
-  photoresistorDefference = (analogRead(RIGHT_PHOTORESISTOR)) - (analogRead(LEFT_PHOTORESISTOR));
+  photoresistorDifference = (analogRead(RIGHT_PHOTORESISTOR)) - (analogRead(LEFT_PHOTORESISTOR));
 
-  if (photoresistorDefference < -100)
+  if (photoresistorDifference < -100)
     digitalWrite(GREENLEFT, HIGH);
-  else if (photoresistorDefference >= -100 && photoresistorDefference < -50)
+  else if (photoresistorDifference >= -100 && photoresistorDifference < -50)
     digitalWrite(YELLOW, HIGH);
-  else if (photoresistorDefference >= -50 && photoresistorDefference < 50)
+  else if (photoresistorDifference >= -50 && photoresistorDifference < 50)
     digitalWrite(RED, HIGH);
-  else if (photoresistorDefference >= 50 && photoresistorDefference < 100)
+  else if (photoresistorDifference >= 50 && photoresistorDifference < 100)
     digitalWrite(BLUE, HIGH);
-  else if (photoresistorDefference > 100)
+  else if (photoresistorDifference > 100)
     digitalWrite(GREENRIGHT, HIGH);
 
   delay(100);
