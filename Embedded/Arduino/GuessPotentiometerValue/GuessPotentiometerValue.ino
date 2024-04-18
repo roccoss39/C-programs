@@ -14,8 +14,8 @@ Gdy za każdym razem zostanie wpisana zła liczba, to na płytce stykowej włąc
 #define RED 10
 #define SWITCH 11
 
-short int ReadVal32 = 0;
-short int UserVal32 = 0;
+short int ReadVal16 = 0;
+short int UserVal16 = 0;
 byte Try = 0;
 
 void setup() {
@@ -27,22 +27,22 @@ void setup() {
 }
 
 void loop() {
-  ReadVal32 = analogRead(A5);
+  ReadVal16 = analogRead(A5);
   Serial.println("Change position of resistor and push the switch");
 
-  while (((analogRead(A5) < ReadVal32 + 3) && (analogRead(A5) > ReadVal32 - 3) || digitalRead(SWITCH) == HIGH)) {};
+  while (((analogRead(A5) < ReadVal16 + 3) && (analogRead(A5) > ReadVal16 - 3) || digitalRead(SWITCH) == HIGH)) {};
 
-  ReadVal32 = analogRead(A5);
-  //Serial.println("ReadVal32:" + String(ReadVal32));
+ ReadVal16 = analogRead(A5);
+  Serial.println("ReadVal16:" + String(ReadVal16));
 
   do {
     Serial.println("GUESS VALUE 0-1023:");
     while (Serial.available() <= 0) {};
 
-    UserVal32 = (Serial.readStringUntil('\n')).toInt();
-    Serial.println(UserVal32);
+    UserVal16 = (Serial.readStringUntil('\n')).toInt();
+    Serial.println(UserVal16);
 
-    if ((UserVal32 > ReadVal32 - 50) && (UserVal32 < ReadVal32 + 50)) {
+    if ((UserVal16 > ReadVal16 - 50) && (UserVal16 < ReadVal16 + 50)) {
       Serial.println("Win!");
       digitalWrite(YELLOW, LOW);
       digitalWrite(GREEN, HIGH);
@@ -56,7 +56,7 @@ void loop() {
       delay(1000);
       digitalWrite(RED, LOW);
       Try++;
-    }
+   }
 
   } while  (Try != 3);
 
