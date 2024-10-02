@@ -27,15 +27,13 @@ int main()
         cout << "Enter your Date of birth DDMMYYYY: ";
         cin >> lVal;
 
-        // Check for input validity
         if (cin.fail() || lVal < 10000000 || lVal > 99999999) {
-            cin.clear(); // Clear the error flag
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
             cout << "Invalid input. Please enter a date in the format DDMMYYYY." << endl;
             continue;
         }
 
-        // Validate the date
         if (!isValidDate(lVal)) {
             cout << "Invalid date. Please check the day and month." << endl;
             continue;
@@ -49,7 +47,7 @@ int main()
         cout << "red means bits 16-18: " << UnionDate.Birthday.red << endl;
 
         ToBit(lVal);
-        break; // Exit the loop on valid input
+        break; 
     }
 }
 
