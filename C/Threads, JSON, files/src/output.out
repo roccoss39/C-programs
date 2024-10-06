@@ -1,0 +1,271 @@
+{
+	"ConnectionRequest": {
+		"header": {
+			"signalType": 1,
+			"signalSize": 8
+		},
+		"connectionId": 12345,
+		"configPreset": 7,
+		"signalStrength": 512
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 23
+		},
+		"noOfConnections": 2,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 12345,
+				"mcs": 13,
+				"tbs": 64,
+				"dataSize": 1000
+			}, {
+				"connectionId": 999999,
+				"mcs": 10,
+				"tbs": 12,
+				"dataSize": 6416
+			}]
+	}
+}
+{
+	"ConnectionRequest": {
+		"header": {
+			"signalType": 1,
+			"signalSize": 8
+		},
+		"connectionId": 11111,
+		"configPreset": 4,
+		"signalStrength": 256
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 12
+		},
+		"noOfConnections": 1,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 5000,
+				"mcs": 7,
+				"tbs": 96,
+				"dataSize": 2048
+			}]
+	}
+}
+{
+	"ConnectionRequest": {
+		"header": {
+			"signalType": 1,
+			"signalSize": 11
+		},
+		"connectionId": 98765,
+		"configPreset": 2,
+		"signalStrength": 128
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 20
+		},
+		"noOfConnections": 4,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 54321,
+				"mcs": 6,
+				"tbs": 48,
+				"dataSize": 1024
+			}, {
+				"connectionId": 111111,
+				"mcs": 8,
+				"tbs": 10,
+				"dataSize": 2048
+			}, {
+				"connectionId": 111111,
+				"mcs": 8,
+				"tbs": 10,
+				"dataSize": 2048
+			}, {
+				"connectionId": 111111,
+				"mcs": 8,
+				"tbs": 10,
+				"dataSize": 2048
+			}]
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 10
+		},
+		"noOfConnections": 0,
+		"connectionDownlinkDataDetails": []
+	}
+}
+{
+	"ConnectionRequest": {
+		"header": {
+			"signalType": 1,
+			"signalSize": 10
+		},
+		"connectionId": 111111,
+		"configPreset": 3,
+		"signalStrength": 768
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 19
+		},
+		"noOfConnections": 4,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 654321,
+				"mcs": 9,
+				"tbs": 64,
+				"dataSize": 512
+			}, {
+				"connectionId": 543211,
+				"mcs": 11,
+				"tbs": 12,
+				"dataSize": 256
+			}, {
+				"connectionId": 543211,
+				"mcs": 11,
+				"tbs": 12,
+				"dataSize": 256
+			}, {
+				"connectionId": 543211,
+				"mcs": 11,
+				"tbs": 12,
+				"dataSize": 256
+			}]
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 22
+		},
+		"noOfConnections": 2,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 33333,
+				"mcs": 4,
+				"tbs": 32,
+				"dataSize": 2048
+			}, {
+				"connectionId": 987654,
+				"mcs": 13,
+				"tbs": 8,
+				"dataSize": 4096
+			}]
+	}
+}
+{
+	"ConnectionRequest": {
+		"header": {
+			"signalType": 1,
+			"signalSize": 12
+		},
+		"connectionId": 66666,
+		"configPreset": 10,
+		"signalStrength": 256
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 25
+		},
+		"noOfConnections": 1,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 55555,
+				"mcs": 12,
+				"tbs": 56,
+				"dataSize": 128
+			}]
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 19
+		},
+		"noOfConnections": 4,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 88888,
+				"mcs": 9,
+				"tbs": 64,
+				"dataSize": 512
+			}, {
+				"connectionId": 432111,
+				"mcs": 11,
+				"tbs": 6,
+				"dataSize": 1024
+			}, {
+				"connectionId": 432111,
+				"mcs": 11,
+				"tbs": 6,
+				"dataSize": 1024
+			}, {
+				"connectionId": 432111,
+				"mcs": 11,
+				"tbs": 6,
+				"dataSize": 1024
+			}]
+	}
+}
+{
+	"ConnectionRequest": {
+		"header": {
+			"signalType": 1,
+			"signalSize": 8
+		},
+		"connectionId": 77777,
+		"configPreset": 3,
+		"signalStrength": 768
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 18
+		},
+		"noOfConnections": 0,
+		"connectionDownlinkDataDetails": []
+	}
+}
+{
+	"DownlinkData": {
+		"header": {
+			"signalType": 4,
+			"signalSize": 24
+		},
+		"noOfConnections": 3,
+		"connectionDownlinkDataDetails": [{
+				"connectionId": 98765,
+				"mcs": 8,
+				"tbs": 96,
+				"dataSize": 1024
+			}, {
+				"connectionId": 654321,
+				"mcs": 12,
+				"tbs": 14,
+				"dataSize": 2048
+			}, {
+				"connectionId": 654321,
+				"mcs": 12,
+				"tbs": 14,
+				"dataSize": 2048
+			}]
+	}
+}

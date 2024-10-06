@@ -1,0 +1,3 @@
+/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build/CMakeFiles/threads.dir
+/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build/CMakeFiles/rebuild_cache.dir

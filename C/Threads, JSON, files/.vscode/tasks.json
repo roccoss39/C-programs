@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "C/C++: gcc build threads.c",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/src/threads.c",
+                "-o",
+                "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build/threads",
+                "-I/usr/include",
+                "-L/usr/lib/x86_64-linux-gnu",
+                "-lcjson",
+                "-g"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Build threads.c with gcc and cJSON library"
+        },
+        {
+            "label": "C/C++: gcc-13 build threads.c",
+            "type": "shell",
+            "command": "/usr/bin/gcc-13",
+            "args": [
+                "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/src/threads.c",
+                "-o",
+                "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build/threads",
+                "-I/usr/include",
+                "-L/usr/lib/x86_64-linux-gnu",
+                "-lcjson",
+                "-g"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Build threads.c with gcc-13 and cJSON library"
+        }
+    ]
+}

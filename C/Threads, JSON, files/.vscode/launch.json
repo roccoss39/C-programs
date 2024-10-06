@@ -1,0 +1,59 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug threads.c",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build/threads",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: gcc build threads.c",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "C/C++: gcc-13 build and debug threads.c",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build/threads",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "/mnt/c/Users/podzi/Desktop/programowanie/C/threads/build",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: gcc-13 build threads.c",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}
