@@ -1,164 +1,166 @@
 //---------------------------------------------------------------------------
-//Program napisany na podstawie bloga https://miroslawzelent.pl/
+// Game based on a tutorial from https://miroslawzelent.pl/
 
 #include <vcl.h>
 #pragma hdrstop
 
 #include "Unit1.h"
 
-bool kolizja(TImage* pilka, TImage* cegla)
+// Constants
+const int INITIAL_BALL_SPEED_X = -8;
+const int INITIAL_BALL_SPEED_Y = -8;
+const int WIN_CONDITION_BRICKS = 12;
+const int PADDLE_MOVE_SPEED = 20;
+const int BALL_PADDING = 5;
+const int BALL_LOSS_MARGIN = 15;
+
+// Function to detect collision between the ball and a brick
+bool isCollision(TImage *ball, TImage *brick)
 {
-    if (pilka->Left >= cegla->Left && pilka->Left <= cegla->Left + cegla->Width &&
-        pilka->Top >= cegla->Top - pilka->Height && pilka->Top <= cegla->Top + cegla->Height)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (ball->Left >= brick->Left && ball->Left <= brick->Left + brick->Width &&
+            ball->Top >= brick->Top - ball->Height && ball->Top <= brick->Top + brick->Height);
 }
 
-int do_wygrania = 12;
-int x = -8, y = -8;
+int bricksRemaining = WIN_CONDITION_BRICKS;
+int ballSpeedX = INITIAL_BALL_SPEED_X;
+int ballSpeedY = INITIAL_BALL_SPEED_Y;
 
 //---------------------------------------------------------------------------
+
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-TForm1* Form1;
+TForm1 *Form1;
 //---------------------------------------------------------------------------
 
-__fastcall TForm1::TForm1(TComponent* Owner)
+__fastcall TForm1::TForm1(TComponent *Owner)
     : TForm(Owner)
 {
 }
 
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::TimerpilkaTimer(TObject* Sender)
+void __fastcall TForm1::TimerBallTimer(TObject *Sender)
 {
-    b->Left += x;
-    b->Top += y;
+    b->Left += ballSpeedX;
+    b->Top += ballSpeedY;
 
-    // Odbicie lewej œciany
-    if (b->Left - 5 <= tlo->Left)
+    // Left wall reflection
+    if (b->Left - BALL_PADDING <= tlo->Left)
     {
-        x = -x;
+        ballSpeedX = -ballSpeedX;
     }
 
-    // Odbicie góry
-    if (b->Top - 5 <= tlo->Top)
+    // Upper wall reflection
+    if (b->Top - BALL_PADDING <= tlo->Top)
     {
-        y = -y;
+        ballSpeedY = -ballSpeedY;
     }
 
-    // Odbicie prawej œciany
-    if (b->Left + b->Width + 5 >= tlo->Width)
+    // Right wall reflection
+    if (b->Left + b->Width + BALL_PADDING >= tlo->Width)
     {
-        x = -x;
+        ballSpeedX = -ballSpeedX;
     }
 
-    // Koniec gry - przegrana
-    if (b->Top >= p->Top + p->Height + 15)
+    // Check if ball falls below paddle (Game over)
+    if (b->Top >= p->Top + p->Height + BALL_LOSS_MARGIN)
     {
-        Timerpilka->Enabled = false;
+        TimerBall->Enabled = false;
         b->Visible = false;
-        Button1->Caption = "Pora¿ka. Jeszcze raz?";
+        Button1->Caption = "Game over. Play again?";
         Button1->Visible = true;
     }
+    // Paddle collision
     else if (b->Left > p->Left - b->Width / 2 && b->Left < p->Left + p->Width &&
              b->Top + b->Height > p->Top)
     {
-        if (y > 0)
-            y = -y;
+        if (ballSpeedY > 0)
+            ballSpeedY = -ballSpeedY;
     }
 
-    // Sprawdzenie kolizji z ceg³ami
-    if (do_wygrania > 0)
+    // Check for brick collisions
+    if (bricksRemaining > 0)
     {
-        AnsiString nazwa;
-        for (int i = 1; i <= 12; i++)
+        for (int i = 1; i <= WIN_CONDITION_BRICKS; i++)
         {
-            nazwa = "Image" + IntToStr(i);
-            TImage* wskIm = static_cast<TImage*>(Form1->FindComponent(nazwa));
-            if (kolizja(b, wskIm) && wskIm->Visible == true)
+            AnsiString brickName = "Image" + IntToStr(i);
+            TImage *brick = static_cast<TImage *>(Form1->FindComponent(brickName));
+            if (isCollision(b, brick) && brick->Visible == true)
             {
-                x = -x;
-                y = -y;
-                wskIm->Visible = false;
-                do_wygrania--;
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY = -ballSpeedY;
+                brick->Visible = false;
+                bricksRemaining--;
             }
         }
     }
 
-    // Koniec gry - wygrana
-    if (do_wygrania <= 0)
+    // Check for win condition
+    if (bricksRemaining <= 0)
     {
-        Timerpilka->Enabled = false;
+        TimerBall->Enabled = false;
         b->Visible = false;
-        Button1->Caption = "Wygrana! Zagraj ponownie.";
+        Button1->Caption = "Win! Play again.";
         Button1->Visible = true;
     }
 }
 
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::lewoTimer(TObject* Sender)
+void __fastcall TForm1::MovePaddleLeftTimer(TObject *Sender)
 {
-    if (p->Left > 10)
-        p->Left += -20;
+    if (p->Left > PADDLE_MOVE_SPEED)
+        p->Left -= PADDLE_MOVE_SPEED;
 }
 
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::prawoTimer(TObject* Sender)
+void __fastcall TForm1::MovePaddleRightTimer(TObject *Sender)
 {
-    if (p->Left + p->Width < tlo->Width - 10)
-        p->Left += +20;
+    if (p->Left + p->Width < tlo->Width - PADDLE_MOVE_SPEED)
+        p->Left += PADDLE_MOVE_SPEED;
 }
 
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::FormKeyDown(TObject* Sender, WORD& Key, TShiftState Shift)
-{
-    if (Key == VK_LEFT)
-        lewo->Enabled = true;
-    if (Key == VK_RIGHT)
-        prawo->Enabled = true;
-}
-
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::FormKeyUp(TObject* Sender, WORD& Key, TShiftState Shift)
+void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
 {
     if (Key == VK_LEFT)
-        lewo->Enabled = false;
+        MovePaddleLeft->Enabled = true;
     if (Key == VK_RIGHT)
-        prawo->Enabled = false;
+        MovePaddleRight->Enabled = true;
 }
 
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Button1Click(TObject* Sender)
+void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+    if (Key == VK_LEFT)
+        MovePaddleLeft->Enabled = false;
+    if (Key == VK_RIGHT)
+        MovePaddleRight->Enabled = false;
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button1Click(TObject *Sender)
 {
     b->Left = 50;
     b->Top = 50;
     b->Visible = true;
-    x = -8;
-    y = -8;
-    Timerpilka->Enabled = true;
+    ballSpeedX = INITIAL_BALL_SPEED_X;
+    ballSpeedY = INITIAL_BALL_SPEED_Y;
+    TimerBall->Enabled = true;
     Button1->Visible = false;
-    do_wygrania = 12;
+    bricksRemaining = WIN_CONDITION_BRICKS;
 
-    AnsiString nazwa;
-    for (int i = 1; i <= 12; i++)
+    // Reset all bricks to visible
+    for (int i = 1; i <= WIN_CONDITION_BRICKS; i++)
     {
-        nazwa = "Image" + IntToStr(i);
-        TImage* wskIm = static_cast<TImage*>(Form1->FindComponent(nazwa));
-        wskIm->Visible = true;
+        AnsiString brickName = "Image" + IntToStr(i);
+        TImage *brick = static_cast<TImage *>(Form1->FindComponent(brickName));
+        brick->Visible = true;
     }
 }
 
 //---------------------------------------------------------------------------
-
-

@@ -1,201 +1,206 @@
-//---------------------------------------------------------------------------
-
 #include <vcl.h>
 #pragma hdrstop
 
 #include "Unit1.h"
 #include "mmsystem.h"
-//---------------------------------------------------------------------------
+
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
-const int ilepic = 12;
-const int ilestronkart = ilepic * 2;
-int ile_klik;
-bool startgry = false;
-AnsiString temp_nazwa;
 
-struct pic
+const int totalCards = 12;
+const int totalCardSides = totalCards * 2;
+int clicks = 0;
+bool gameStarted = false;
+AnsiString lastCardName;
+
+struct Card
 {
-    TImage *pict;
-    AnsiString nazwa_pict;
-    pic() : pict(NULL), nazwa_pict(){};
+    TImage *image;
+    AnsiString name;
+    Card() : image(NULL), name() {}
 };
 
-pic tabpic[ilestronkart];
+Card cards[totalCardSides];
 
 //---------------------------------------------------------------------------
 
-void LosujKarty()
+void ShuffleCards()
 {
-    AnsiString nazwa, sciezka_do_pliku;
-    int x, licznik = 0;
+    AnsiString cardName, filePath;
+    int randomIndex, count = 0;
 
     randomize();
 
-    for (int i = 0; i < ilepic / 2; i++)
+    for (int i = 0; i < totalCards / 2; i++)
     {
-        sciezka_do_pliku = "img/m" + IntToStr(i + 1) + ".bmp";
+        filePath = "img/m" + IntToStr(i + 1) + ".bmp";
 
-        while (licznik < 2)
+        while (count < 2)
         {
-            x = random(ilepic);
+            randomIndex = random(totalCards);
 
-            if (tabpic[x].pict->Picture->Graphic == NULL)
+            if (cards[randomIndex].image->Picture->Graphic == NULL)
             {
-                nazwa = "m" + IntToStr(x + 1);
-                tabpic[x].pict = static_cast<TImage *>(Form1->FindComponent(nazwa));
-
-                tabpic[x].pict->Picture->LoadFromFile(sciezka_do_pliku);
-                tabpic[x].nazwa_pict = sciezka_do_pliku;
-
-                licznik++;
+                cardName = "cardFront" + IntToStr(randomIndex + 1);
+                cards[randomIndex].image = static_cast<TImage *>(Form1->FindComponent(cardName));
+                cards[randomIndex].image->Picture->LoadFromFile(filePath);
+                cards[randomIndex].name = filePath;
+                count++;
             }
         }
-        licznik = 0;
+        count = 0;
     }
 }
+
 //---------------------------------------------------------------------------
-void ResetGry()
+
+void ResetGame()
 {
     sndPlaySound("snd/rain1.wav", SND_ASYNC | SND_LOOP | SND_NOSTOP);
 
-    for (int i = 0; i < ilepic; i++)
+    for (int i = 0; i < totalCards; i++)
     {
-        tabpic[i].pict->Picture->Graphic = NULL;
+        cards[i].image->Picture->Graphic = NULL;
     }
 
-    ile_klik = 0;
-    LosujKarty();
-    startgry = true;
+    clicks = 0;
+    ShuffleCards();
+    gameStarted = true;
 }
-//---------------------------------------------------------------------------
-void sprawdz(TObject *wskp)
-{
-    // Znalezienie odpowiedniej karty dla klikniêtej karty zakrytej
-    pic *wskt;
-    AnsiString index;
-    TImage *obraz = dynamic_cast<TImage *>(wskp);
-    index = obraz->Name;
-    index = index.Delete(1, 1);
-    wskt = &tabpic[(StrToInt(index)) - 1];
 
-    if (startgry)
+//---------------------------------------------------------------------------
+
+void CheckCard(TObject *clickedObject)
+{
+    Card *selectedCard;
+    AnsiString cardIndex;
+    TImage *clickedImage = dynamic_cast<TImage *>(clickedObject);
+    cardIndex = clickedImage->Name;
+    cardIndex = cardIndex.Delete(1, 9);  // Remove "cardFront" from the name
+    selectedCard = &cards[StrToInt(cardIndex) - 1];
+
+    if (gameStarted)
     {
-        obraz->Visible = false;
-        ile_klik++;
-        if (ile_klik % 2)
+        clickedImage->Visible = false;
+        clicks++;
+
+        if (clicks % 2 == 1)
         {
             sndPlaySound("snd/ok4.wav", SND_ASYNC);
-            temp_nazwa = wskt->nazwa_pict;
+            lastCardName = selectedCard->name;
         }
         else
         {
-            if (wskt->nazwa_pict == temp_nazwa)
+            if (selectedCard->name == lastCardName)
             {
-                if (ile_klik == ilepic)
+                if (clicks == totalCards)
                 {
                     sndPlaySound("snd/win2.wav", SND_ASYNC);
-                    Form1->Rozpocznij->Caption = "Wygra³eœ! Zagraj ponownie";
-                    startgry = false;
+                    Form1->startLabel->Caption = "You win! Play again?";
+                    gameStarted = false;
                 }
                 else
                 {
                     sndPlaySound("snd/ok.wav", SND_ASYNC);
-                    Form1->Rozpocznij->Caption = "Doskonale!";
+                    Form1->startLabel->Caption = "Great!";
                     Application->ProcessMessages();
                     Sleep(300);
-                    Form1->Rozpocznij->Caption = "Zacznij od nowa";
+                    Form1->startLabel->Caption = "Start again";
                 }
             }
             else
             {
-                Form1->Rozpocznij->Caption = "Pud³o! Zagraj ponownie";
+                Form1->startLabel->Caption = "Miss! Try again";
                 sndPlaySound("snd/lose.wav", SND_ASYNC);
-                startgry = false;
+                gameStarted = false;
             }
         }
     }
 }
+
 //---------------------------------------------------------------------------
+
 __fastcall TForm1::TForm1(TComponent *Owner)
     : TForm(Owner)
 {
 }
 
 //---------------------------------------------------------------------------
+
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-    AnsiString nazwaobi;
+    AnsiString cardName;
 
     sndPlaySound("snd/rain1.wav", SND_ASYNC | SND_LOOP | SND_NOSTOP);
 
-    for (int i = 0; i < ilepic; i++) // Inicjalizacja wskaŸników
+    for (int i = 0; i < totalCards; i++) // Initialize pointers
     {
-        nazwaobi = "m" + IntToStr(i + 1);
-        tabpic[i].pict = static_cast<TImage *>(Form1->FindComponent(nazwaobi));
-        tabpic[i].nazwa_pict = "";
-        tabpic[i].pict->Enabled = false;
-        tabpic[i].pict->Picture->Graphic = NULL;
-    };
+        cardName = "cardFront" + IntToStr(i + 1);
+        cards[i].image = static_cast<TImage *>(Form1->FindComponent(cardName));
+        cards[i].name = "";
+        cards[i].image->Enabled = false;
+        cards[i].image->Picture->Graphic = NULL;
+    }
 
-    for (int i = ilepic; i < ilestronkart; i++) // Przypisanie rewersu karty
+    for (int i = totalCards; i < totalCardSides; i++) // Assign card backs
     {
-        nazwaobi = "b" + IntToStr((i % (ilepic)) + 1);
-        tabpic[i].pict = static_cast<TImage *>(Form1->FindComponent(nazwaobi));
-        tabpic[i].pict->Enabled = false;
+        cardName = "cardBack" + IntToStr((i % totalCards) + 1);
+        cards[i].image = static_cast<TImage *>(Form1->FindComponent(cardName));
+        cards[i].image->Enabled = false;
 
-        if (tabpic[i].pict != NULL)
+        if (cards[i].image != NULL)
         {
-            tabpic[i].pict->Picture->LoadFromFile("img/b.bmp");
+            cards[i].image->Picture->LoadFromFile("img/b.bmp");
         }
     }
 
     WindowState = wsMaximized;
-    tlo->Stretch = true;
-    tlo->Width = ClientWidth;
-    tlo->Height = ClientHeight;
+    background->Stretch = true;
+    background->Width = ClientWidth;
+    background->Height = ClientHeight;
 
-    LosujKarty();
+    ShuffleCards();
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TForm1::bClick(TObject *Sender)
+
+void __fastcall TForm1::cardClick(TObject *Sender)
 {
-    sprawdz(Sender);
+    CheckCard(Sender);
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TForm1::RozpocznijClick(TObject *Sender)
+
+void __fastcall TForm1::startLabelClick(TObject *Sender)
 {
-    if ((startgry == false) && (ile_klik != 0))
+    if (!gameStarted && clicks != 0)
     {
-        ResetGry();
+        ResetGame();
     }
 
-    startgry = false;
+    gameStarted = false;
     sndPlaySound("snd/start.wav", SND_ASYNC);
-    for (int i = (ilepic); i < ilestronkart; i++)
+
+    for (int i = totalCards; i < totalCardSides; i++)
     {
-        tabpic[i].pict->Visible = false;
-        tabpic[i].pict->Enabled = false;
+        cards[i].image->Visible = false;
+        cards[i].image->Enabled = false;
     }
 
-    Rozpocznij->Caption = "Zapamiêtaj";
+    startLabel->Caption = "Memorize";
     Application->ProcessMessages();
     Sleep(3000);
     Application->ProcessMessages();
     Sleep(1);
-    if (startgry == true)
-        ;
-    for (int i = (ilepic); i < ilestronkart; i++)
-    {
-        tabpic[i].pict->Visible = true;
-        tabpic[i].pict->Enabled = true;
-    }
-    startgry = true;
-    Rozpocznij->Caption = "Zacznij od nowa";
-};
 
-//---------------------------------------------------------------------------
+    for (int i = totalCards; i < totalCardSides; i++)
+    {
+        cards[i].image->Visible = true;
+        cards[i].image->Enabled = true;
+    }
+
+    gameStarted = true;
+    startLabel->Caption = "Start again";
+}
 
