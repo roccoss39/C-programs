@@ -297,7 +297,7 @@ int MesureDistance() {
 
     robotTime = pulseIn(echoPin, HIGH);
     distance = robotTime / 58;
-    Serial.println(distance);
+    Serial.println(distace);
     return distance;
   }
   return 50;
